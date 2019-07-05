@@ -79,9 +79,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
           <span className="navbar-count">{this.state.numberOfUser} Users Online</span>
         </nav>
-        //pass messages state to MessageList.jsx as a prop
         <MessageList messageList={this.state.messages}/>
-        //pass composeMessage function, changeUser function and currentUser state to ChatBar.jsx as props
         <ChatBar composeMessage={this.composeMessage} changeUser={this.changeUser} chatName={this.state.currentUser}/>
       </div>
     );
