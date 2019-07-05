@@ -15,7 +15,7 @@ class App extends Component {
       numberOfUser: 0
     }
   }
-
+  //function that generate a random color for each client, used in state.
   getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -25,8 +25,10 @@ class App extends Component {
   return color;
   }
 
+  //function that takes a message and generate an object including name message type and send to server
   composeMessage = (message) => {
     let name;
+    //if the client doesn't have a name show them as anonymous in the chat
     if(this.state.currentUser.name !== ""){
       name = this.state.currentUser.name;
     } else {
@@ -36,9 +38,10 @@ class App extends Component {
     this.webSocket.send(JSON.stringify(newMessage));
   }
 
+  //function that changes the user's name and send to server to notify all connected clients
   changeUser = (oldName, newName) => {
     let nameContent;
-
+    //if the client doesn't have a name show them as anonymous when updating name
     if(oldName !== "") {
       nameContent = `***${oldName} has changed their name to ${newName}***`;
     } else {
@@ -54,16 +57,11 @@ class App extends Component {
   componentDidMount() {
     this.webSocket = new WebSocket ("ws://localhost:3001");
 
-    this.webSocket.onopen = () => {
-      console.log("Connected to server, client");
-      console.log(this.state);
-    }
-
+    //When reciving messages from server
     this.webSocket.onmessage = (event) => {
-      console.log('client recieved message', event.data);
 
       let messageFromServer = JSON.parse(event.data);
-
+      //identify what is the type of the message recieved from server
       if (messageFromServer.type === "numberOfUser") {
         this.setState({messages: [...this.state.messages, messageFromServer.systemMessage], numberOfUser: messageFromServer.number})
       } else {
@@ -71,28 +69,7 @@ class App extends Component {
           messages: [...this.state.messages, messageFromServer]
         });
       }
-      // if (messageFromServer.type === "postMessage") {
-
-      // } else if (messageFromServer.type === "postNotification") {
-      //   this.setState({
-      //     messages: [...this.state.messages, messageFromServer]
-      //   })
-      // }
-
     }
-
-
-    console.log("componentDidMount");
-
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
   }
 
   render() {
@@ -102,7 +79,9 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
           <span className="navbar-count">{this.state.numberOfUser} Users Online</span>
         </nav>
+        //pass messages state to MessageList.jsx as a prop
         <MessageList messageList={this.state.messages}/>
+        //pass composeMessage function, changeUser function and currentUser state to ChatBar.jsx as props
         <ChatBar composeMessage={this.composeMessage} changeUser={this.changeUser} chatName={this.state.currentUser}/>
       </div>
     );

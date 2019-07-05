@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 class Message extends Component {
   render() {
+    //check the type of message that is going to be rendered
     if (this.props.singleMessage.type === "postMessage"){
       return (
         <div className="message" >
