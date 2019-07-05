@@ -2,30 +2,32 @@ import React, {Component} from 'react';
 
 class ChatBar extends Component {
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    let name;
-    if (e.target.nameField.value) {
-      name = e.target.nameField.value;
-    } else {
-      name = "Anonymous";
+  onKeyDownMessage = (e) => {
+    if(e.key === "Enter") {
+
+      e.preventDefault();
+      let message = e.target.value;
+      this.props.composeMessage(message);
+
+      e.target.value = "";
     }
-    let message = e.target.messageField.value;
+  }
 
-    this.props.composeMessage(name, message);
-
-    e.target.messageField.value = "";
-
-
+  onKeyDownName = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      let prevUserName = this.props.chatName.name;
+      let currentUserName = e.target.value;
+      this.props.changeUser(prevUserName, currentUserName);
+    }
   }
 
   render() {
     return (
       <div>
-        <form className="chatbar" onSubmit={this.onSubmit}>
-          <input name="nameField" className="chatbar-username" type="text" placeholder="Your Name (Optional)" defaultValue={this.props.chatName.name}/>
-          <input name="messageField"className="chatbar-message" type="text" placeholder="Type a message and hit ENTER" />
-          <input type="submit" value="Send" />
+        <form className="chatbar">
+          <input name="nameField" className="chatbar-username" type="text" placeholder="Your Name (Optional)" defaultValue={this.props.chatName.name} onKeyDown={this.onKeyDownName} />
+          <input name="messageField" className="chatbar-message" type="text" placeholder="Type a message and hit ENTER" onKeyDown={this.onKeyDownMessage}/>
         </form>
       </div>
     );

@@ -2,12 +2,16 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
 body {
-      background: white;
+      background-color: white;
       color: black;
       font-family: 'Open Sans', sans-serif;
       font-size: 14px;
       margin: 70px 0;
     }
+
+
+
+
 
     .chatbar {
       background: tomato;
@@ -67,7 +71,7 @@ body {
     .navbar {
       background: tomato;
       border-bottom: 1px solid black;
-      height: 60px;
+      height: 70px;
       left: 0;
       padding: 0 10px;
       position: fixed;
@@ -85,4 +89,18 @@ body {
       line-height: 60px;
       padding: 0 10px;
       text-decoration: none;
+
+    }
+
+    .navbar-count {
+      color: inherit;
+      display: block;
+      float: right;
+      font-weight: 700;
+      font-size: 28px;
+      height: 60px;
+      line-height: 60px;
+      padding: 0 10px;
+      text-decoration: none;
+
     }
